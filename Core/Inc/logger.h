@@ -3,8 +3,8 @@
 
 typedef struct
 {
-    uint8_t temp;
-    uint8_t illum;
+    uint16_t temp;
+    uint16_t illum;
     
 } logger_t;
 
