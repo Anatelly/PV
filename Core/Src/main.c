@@ -9,6 +9,7 @@ int main(void)
   while (1)
   {
     adc_task();
+    logger_task();
   }
 }
 

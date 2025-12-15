@@ -8,4 +8,7 @@ typedef struct
     
 } logger_t;
 
+void logger_init(void);
+void logger_task(void);
+
 #endif /* _LOGGER_H_ */

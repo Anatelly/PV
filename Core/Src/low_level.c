@@ -16,6 +16,8 @@ void init_task(void)
     initUart2();
     ADC1_Init();
     DMA_Init();
+
+    logger_init();
 }
 
 
