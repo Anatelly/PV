@@ -5,6 +5,7 @@ static void GPIO_Init(void);
 static void initUart2 (void);
 static void ADC1_Init(void);
 static void DMA_Init(void);
+static void timer_init(void);
 
 void init_task(void)
 {
@@ -17,7 +18,7 @@ void init_task(void)
     ADC1_Init();
     DMA_Init();
 
-    logger_init();
+    timer_init();
 }
 
 
@@ -93,7 +94,7 @@ static void initUart2 (void)
 
     struct termios settings;
     tcgetattr(sck_2, &settings);
-    tcsetiospeed(&settings, B9600); //скорость 115200 бит/c
+    tcsetiospeed(&settings, B115200); //скорость 115200 бит/c
     tcsetattr(sck_2, 0, &settings);
 }
 
@@ -178,4 +179,10 @@ static void DMA_Init(void)
   /* DMA2_Stream0_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+}
+
+static void timer_init(void)
+{
+    software_timer_start(&tim1, 50);
+    software_timer_start(&tim2, 10);
 }

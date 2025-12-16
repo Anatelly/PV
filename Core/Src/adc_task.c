@@ -1,22 +1,21 @@
 #include "include.h"
 
-uint16_t adcData[ADC_CHANNELS_NUM];
+static uint16_t adcData[ADC_CHANNELS_NUM];
 
 void adc_task(void)
 {
-    if(software_timer(&tim1)) {
+    if(software_timer(&tim2)) {
       adc_flag = 0;
       HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcData, ADC_CHANNELS_NUM);
     }
 }
-
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
   if(hadc->Instance == ADC1)
   {
     adc_flag = 1;
-    logger.temp = adcData[1] * 3.3 * 1000 / 4095; //записываем данные с канала температуры
-    logger.illum = adcData[0] * 3.3 * 1000 / 4095; //записываем данные с канала освещенности
+    adc_voltage[1] = adcData[1] * 3.3 / 4095; //записываем данные с канала температуры
+    adc_voltage[0] = adcData[0] * 3.3 / 4095; //записываем данные с канала освещенности
   }
 }
