@@ -2,27 +2,18 @@
 
 #include "include.h"
 
-static void MX_GPIO_Init(void);
-static void MX_DMA_Init(void);
-static void MX_ADC1_Init(void);
-static void MX_DAC1_Init(void);
-static void MX_USART2_UART_Init(void);
-
-
 /**
   * @brief  The application entry point.
   * @retval int
   */
 int main(void)
 {
-
-  HAL_Init();
-
   init_task();
 
   while (1)
   {
-
+    adc_task();
+    logger_task();
   }
 
 }

@@ -20,6 +20,7 @@
 // #define PORT_DAC_IN3                     GPIOA  
 // #define PIN_DAC_IN3                      GPIO_PIN_4  
 
+void SystemClock_Config(void);
 void init_task(void);
 
 #endif /* __LOW_LEVEL_H */

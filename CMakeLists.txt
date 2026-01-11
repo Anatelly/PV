@@ -50,7 +50,7 @@ include_directories(
 )
 
 # Тут прописываем дополнительные дефайны к проекту
-add_definitions(-DUSE_HAL_DRIVER -DSTM32H750xx -DHSE_VALUE=16000000 -DF_CPU=100000000)
+add_definitions(-DUSE_HAL_DRIVER -DSTM32H750xx -DHSE_VALUE=25000000 -DF_CPU=100000000)
 
 # Тут прописываются пути ко всем папкам с исходниками
 set(GROUP_SOURCES_CMSIS
