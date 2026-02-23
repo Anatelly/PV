@@ -195,19 +195,19 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32h7xx.s).                    */
 /******************************************************************************/
 
-/**
-  * @brief This function handles DMA1 stream0 global interrupt.
-  */
-void DMA1_Stream0_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Stream0_IRQn 0 */
+// /**
+//   * @brief This function handles DMA1 stream0 global interrupt.
+//   */
+// void DMA1_Stream0_IRQHandler(void)
+// {
+//   /* USER CODE BEGIN DMA1_Stream0_IRQn 0 */
 
-  /* USER CODE END DMA1_Stream0_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_dac1_ch1);
-  /* USER CODE BEGIN DMA1_Stream0_IRQn 1 */
+//   /* USER CODE END DMA1_Stream0_IRQn 0 */
+//   HAL_DMA_IRQHandler(&hdma_dac1_ch1);
+//   /* USER CODE BEGIN DMA1_Stream0_IRQn 1 */
 
-  /* USER CODE END DMA1_Stream0_IRQn 1 */
-}
+//   /* USER CODE END DMA1_Stream0_IRQn 1 */
+// }
 
 /**
   * @brief This function handles DMA1 stream1 global interrupt.
@@ -224,17 +224,15 @@ void DMA1_Stream1_IRQHandler(void)
 }
 
 /**
-  * @brief This function handles ADC1 and ADC2 global interrupts.
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
   */
-void ADC_IRQHandler(void)
+void Error_Handler(void)
 {
-  /* USER CODE BEGIN ADC_IRQn 0 */
-
-  /* USER CODE END ADC_IRQn 0 */
-  HAL_ADC_IRQHandler(&hadc1);
-  /* USER CODE BEGIN ADC_IRQn 1 */
-
-  /* USER CODE END ADC_IRQn 1 */
+  __disable_irq();
+  while (1)
+  {
+  }
 }
 
 /* USER CODE BEGIN 1 */

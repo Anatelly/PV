@@ -1,6 +1,6 @@
 #ifndef _POLYNOMIAL_H_
 #define _POLYNOMIAL_H_
 
-double volt_illum_func(double x);
+void convert_task(void);
 
 #endif /* _POLYNOMIAL_H_ */

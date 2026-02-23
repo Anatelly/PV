@@ -64,8 +64,9 @@ set(GROUP_SOURCES_CORE
 		Core/Src/low_level.c
 		Core/Src/adc_task.c
 		Core/Src/logger.c
-		Core/Src/polynomial.c
+		Core/Src/converter.c
 		Core/Src/software_timer.c
+		Core/Src/crc8.c
 		)
 
 set(GROUP_SOURCES_HAL_DRIVER

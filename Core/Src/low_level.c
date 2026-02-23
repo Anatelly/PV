@@ -17,7 +17,7 @@ void init_task(void)
   MX_USART2_UART_Init();
 
   MX_ADC1_Init();
-  // MX_DAC1_Init();
+  MX_DAC1_Init();
   MX_DMA_Init();
 
   timer_init();
@@ -52,12 +52,12 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 2;
-  RCC_OscInitStruct.PLL.PLLN = 12;
+  RCC_OscInitStruct.PLL.PLLN = 16;
   RCC_OscInitStruct.PLL.PLLP = 2;
   RCC_OscInitStruct.PLL.PLLQ = 2;
-  RCC_OscInitStruct.PLL.PLLR = 2;
+  RCC_OscInitStruct.PLL.PLLR = 5;
   RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_3;
-  RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOMEDIUM;
+  RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
   RCC_OscInitStruct.PLL.PLLFRACN = 0;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -76,7 +76,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV1;
   RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -148,7 +148,7 @@ static void MX_ADC1_Init(void)
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADC;
   PeriphClkInitStruct.PLL2.PLL2M = 2;
   PeriphClkInitStruct.PLL2.PLL2N = 12;
-  PeriphClkInitStruct.PLL2.PLL2P = 5;
+  PeriphClkInitStruct.PLL2.PLL2P = 4;
   PeriphClkInitStruct.PLL2.PLL2Q = 2;
   PeriphClkInitStruct.PLL2.PLL2R = 2;
   PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_3;
@@ -169,12 +169,12 @@ static void MX_ADC1_Init(void)
   hadc1.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   hadc1.Init.LowPowerAutoWait = DISABLE;
-  hadc1.Init.ContinuousConvMode = DISABLE;
+  hadc1.Init.ContinuousConvMode = ENABLE;
   hadc1.Init.NbrOfConversion = 2;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc1.Init.ConversionDataManagement = ADC_CONVERSIONDATA_DR;
+  hadc1.Init.ConversionDataManagement = ADC_CONVERSIONDATA_DMA_CIRCULAR;
   hadc1.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
   hadc1.Init.LeftBitShift = ADC_LEFTBITSHIFT_NONE;
   hadc1.Init.OversamplingMode = DISABLE;
@@ -208,10 +208,6 @@ static void MX_ADC1_Init(void)
   {
     Error_Handler();
   }
-
-  /* ADC1 interrupt Init */
-  HAL_NVIC_SetPriority(ADC_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(ADC_IRQn);
 }
 
 /**
@@ -298,18 +294,18 @@ static void MX_USART2_UART_Init(void)
 static void MX_DMA_Init(void)
 {
 
-  /* DMA controller clock enable */
-  __HAL_RCC_DMA1_CLK_ENABLE();
+  // /* DMA controller clock enable */
+  // __HAL_RCC_DMA1_CLK_ENABLE();
 
   // hdma_dac1_ch1.Instance = DMA1_Stream0;
   // hdma_dac1_ch1.Init.Request = DMA_REQUEST_DAC1;
   // hdma_dac1_ch1.Init.Direction = DMA_MEMORY_TO_PERIPH;
   // hdma_dac1_ch1.Init.PeriphInc = DMA_PINC_DISABLE;
   // hdma_dac1_ch1.Init.MemInc = DMA_MINC_ENABLE;
-  // hdma_dac1_ch1.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-  // hdma_dac1_ch1.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
-  // hdma_dac1_ch1.Init.Mode = DMA_NORMAL;
-  // hdma_dac1_ch1.Init.Priority = DMA_PRIORITY_LOW;
+  // hdma_dac1_ch1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+  // hdma_dac1_ch1.Init.MemDataAlignment = DMA_PDATAALIGN_HALFWORD;
+  // hdma_dac1_ch1.Init.Mode = DMA_CIRCULAR;
+  // hdma_dac1_ch1.Init.Priority = DMA_PRIORITY_MEDIUM;
   // hdma_dac1_ch1.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
   // if (HAL_DMA_Init(&hdma_dac1_ch1) != HAL_OK)
   // {
@@ -326,8 +322,8 @@ static void MX_DMA_Init(void)
   hdma_adc1.Init.MemInc = DMA_MINC_ENABLE;
   hdma_adc1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
   hdma_adc1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
-  hdma_adc1.Init.Mode = DMA_NORMAL;
-  hdma_adc1.Init.Priority = DMA_PRIORITY_LOW;
+  hdma_adc1.Init.Mode = DMA_CIRCULAR;
+  hdma_adc1.Init.Priority = DMA_PRIORITY_HIGH;
   hdma_adc1.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
   if (HAL_DMA_Init(&hdma_adc1) != HAL_OK)
   {
@@ -337,16 +333,17 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Stream0_IRQn interrupt configuration */
-  // HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
+  // HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 1, 0);
   // HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
+
   /* DMA1_Stream1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 3, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
 
 }
 
 static void timer_init(void)
 {
-  software_timer_start(&tim1, 50);
-  software_timer_start(&tim2, 10);
+  software_timer_start(&tim1, 100);
+  software_timer_start(&tim2, 100);
 }

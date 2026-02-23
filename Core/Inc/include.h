@@ -14,9 +14,13 @@
 #include "main.h"
 #include "adc_task.h"
 #include "logger.h"
-#include "polynomial.h"
+#include "converter.h"
 #include "software_timer.h"
+#include "crc8.h"
 
 #include "var.h"
+
+#define TEMP_CHANNEL            0
+#define ILLUM_CHANNEL           1
 
 #endif /* _INCLUDE_H_ */
