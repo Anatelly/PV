@@ -5,12 +5,9 @@ static uint8_t curr_buf = 0;
 
 void adc_start(void)
 {
-    // if(software_timer(&tim2)) {
-      // adc_flag = 0;
       if(HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcData, ADC_CHANNELS_NUM) != HAL_OK) {
         Error_Handler();
-      };
-    // }
+      }
 }
 
 /**
@@ -20,7 +17,6 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
     // adc_flag = 1;
     adc_voltage[ILLUM_CHANNEL] = adcData[ILLUM_CHANNEL] * 3.3 / 65535; //напряжение на фоторезисторе
-    adc_voltage[TEMP_CHANNEL] = adcData[TEMP_CHANNEL] * 3.3 / 65535; //напряжение на термисторе
 
 }
 

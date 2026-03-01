@@ -7,7 +7,7 @@ typedef struct
 {
     uint8_t prxA;
     uint8_t prxB;
-    uint16_t temp;
+    float temp;
     uint16_t illum;
     uint8_t crc;
     

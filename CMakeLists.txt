@@ -18,13 +18,33 @@ project(pv_h750 C CXX ASM)
 set(CMAKE_CXX_STANDART 17)
 set(CMAKE_C_STANDART 99)
 
-# Раскоментируйте ниже строчки для использования аппаратного FPU
-# add_compile_definitions(ARM_MATH_CM4;ARM_MATH_MATRIX_CHECK;ARM_MATH_ROUNDING)
-# add_compile_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16)
-# add_link_options(-mfloat-abi=hard -mfpu=fpv4-sp-d16)
+# Опции компиляции для Cortex-M7 с FPU
+add_compile_options(
+    -mcpu=cortex-m7
+    -mthumb
+    
+    # Режим FPU - аппаратный с одинарной точностью
+    -mfloat-abi=hard
+    -mfpu=fpv5-sp-d16      # Для H750 (Cortex-M7 с одинарной точностью)
+    
+    # Оптимизации
+    -ffunction-sections
+    -fdata-sections
+    -fno-common
+    -fmessage-length=0
+)
 
-add_compile_options(-mcpu=cortex-m7 -mthumb -mthumb-interwork)
-add_compile_options(-ffunction-sections -fdata-sections -fno-common -fmessage-length=0)
+# Линковка
+add_link_options(
+    -mcpu=cortex-m7
+    -mthumb
+    -mfloat-abi=hard
+    -mfpu=fpv5-sp-d16
+    -Wl,--gc-sections       # Удаление неиспользуемых секций
+)
+
+# add_compile_options(-mcpu=cortex-m7 -mthumb -mthumb-interwork)
+# add_compile_options(-ffunction-sections -fdata-sections -fno-common -fmessage-length=0)
 
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
 	message(STATUS "Maximum optimization for speed")
@@ -67,6 +87,8 @@ set(GROUP_SOURCES_CORE
 		Core/Src/converter.c
 		Core/Src/software_timer.c
 		Core/Src/crc8.c
+		Core/Src/temp_sens.c
+		Core/Src/illum_sens.c
 		)
 
 set(GROUP_SOURCES_HAL_DRIVER
@@ -84,6 +106,7 @@ set(GROUP_SOURCES_HAL_DRIVER
 		Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c
 		Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi.c
 		Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c
+		Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c
 		Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c
 		Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c
 		Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c

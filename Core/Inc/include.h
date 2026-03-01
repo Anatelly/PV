@@ -17,10 +17,13 @@
 #include "converter.h"
 #include "software_timer.h"
 #include "crc8.h"
+#include "temp_sens.h"
+#include "illum_sens.h"
 
 #include "var.h"
 
-#define TEMP_CHANNEL            0
-#define ILLUM_CHANNEL           1
+#define VOLTAGE_CHANNEL            0
+#define ILLUM_CHANNEL              1
+#define CURRENT_CHANNEL            2
 
 #endif /* _INCLUDE_H_ */

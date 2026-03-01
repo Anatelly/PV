@@ -1,9 +1,18 @@
 #include "include.h"
 
+static const float mu_cc = 0.00159636f;
+static const float I_0 = 2.3808e-10f;
+static const float V_d = 0.7f;
+static const float k = 1.3806e-23f;
+static const float q = 1.6022e-19f;
+static const float nI = 0.99673f;
+static const uint8_t Ncell = 48;
+static const float Rsh = 78.6558f;
+
+
 static uint16_t volt_to_illum(uint16_t volt); 
-static uint16_t volt_to_temp(uint16_t volt);
 static void set_value_dac(uint16_t value);
-static double volt_illum_func(double x);
+static float current_math_model(float E, float E_ref, float T, float T_ref, float I_ref);
 
 /**
  * @brief Преобразовывает считанную освещенность и температуру в выходное напряжение (значение для ЦАП)
@@ -24,16 +33,6 @@ static uint16_t volt_to_illum(uint16_t volt)
 }
 
 /**
- * @brief Преобразовывает напряжение с ацп в температуру в гр. С
- */
-static uint16_t volt_to_temp(uint16_t volt) 
-{
-    uint16_t resist = 10000.0 * adc_voltage[TEMP_CHANNEL] / (3.3 - adc_voltage[TEMP_CHANNEL]); //сопротивление термистора в Ом
-
-    return resist;
-}
-
-/**
  * @brief установка знчения в цап
  */
 static void set_value_dac(uint16_t value) 
@@ -44,13 +43,25 @@ static void set_value_dac(uint16_t value)
 }
 
 /**
- * @brief Зависимость напряжения от освещенности. Аппроксимация полиномом 10й степени
- * @param x - освещенность W/m2
- * @note На выходе получается напряжение в В для PV
+ * @brief Мат модель выходного тока
+ * @param E - освещенность в W/m2
+ * @param E_ref - опорная освещенность в W/m2
+ * @param T - температура в гр. С
+ * @param T_ref - опорная температруа в гр.С
+ * @param I_ref - выходной ток в опорной точке в A
+ * @return На выходе получается выходной ток в A
  */
-static double volt_illum_func(double x)
+static float current_math_model(float E, float E_ref, float T, float T_ref, float I_ref)
 {
-    double voltage = -1.4161664835639534 + 0.4973725819227123*x + -0.022539956113439615*x*x + 0.0005107168227857588*x*x*x + -6.551716589662537e-06*x*x*x*x + 5.170169386359444e-08*x*x*x*x*x + -2.5976993176473945e-10*x*x*x*x*x*x + 8.330210752860122e-13*x*x*x*x*x*x*x + -1.6501463235380724e-15*x*x*x*x*x*x*x*x + 1.83936948637939e-18*x*x*x*x*x*x*x*x*x + -8.821975832278624e-22*x*x*x*x*x*x*x*x*x*x;
+    float Iph, Vt, Id, I;
 
-    return voltage;
+    T = T + TEMP_CONV_COEFF;
+    T_ref = T_ref + TEMP_CONV_COEFF;
+
+    Iph = (E / E_ref) * (I_ref + mu_cc * (T - T_ref));
+    Vt = (k * T / q) * nI * Ncell;
+    Id = I_0 * ((float)(exp(V_d / Vt)) - 1);
+    I = Iph - Id - V_d / Rsh;
+
+    return I;
 }
