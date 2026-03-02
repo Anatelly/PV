@@ -22,9 +22,9 @@
 #define PIN_SPI_MOSI                     GPIO_PIN_7                  
 #define PIN_SPI_SCK                      GPIO_PIN_3   
 #define PIN_SPI_MISO                     GPIO_PIN_4                  
-#define PIN_SPI_CS                       GPIO_PIN_6   
+#define PIN_SPI_CS                       GPIO_PIN_8  
 
-#define PIN_SPI_CS_PORT                  GPIOD   
+#define PIN_SPI_CS_PORT                  GPIOB   
 
 void SystemClock_Config(void);
 void init_task(void);

@@ -13,7 +13,7 @@ float PmodTIMP3_Read_temp(void)
       // Error_Handler();
     }
     
-    raw_val = ((rx_data[0] << 8) | rx_data[1]); //объеденияем msb и lsb
+    raw_val = (rx_data[0] << 8) | rx_data[1]; //объеденияем msb и lsb
 
     if((raw_val>>15)) { //если отрицательное значение
         raw_val = (raw_val >> 4) & 0x7FF;

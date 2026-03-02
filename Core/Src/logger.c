@@ -11,11 +11,12 @@ void logger_task(void)
         // pck->temp = 10000.0 * adc_voltage[TEMP_CHANNEL] / (3.3 - adc_voltage[TEMP_CHANNEL]); //сопротивление термистора в Ом
         pck->temp = PmodTIMP3_Read_temp();
         
-        pck->illum = 10000.0 * adc_voltage[ILLUM_CHANNEL] / (3.3 - adc_voltage[ILLUM_CHANNEL]); //сопротивление фоторезистора в Ом
+        // pck->illum = 10000.0 * adc_voltage[ILLUM_CHANNEL] / (3.3 - adc_voltage[ILLUM_CHANNEL]); //сопротивление фоторезистора в Ом
+        pck->illum = PmodALS_Read_illum();
 
         pck->crc = crc8(&pck->temp, sizeof(logger_t) - 3); //кс для всего кроме префикса(2) и самой кс(1)
 
         if(software_timer(&tim1))
-           HAL_UART_Transmit(&huart2, buff, sizeof(logger_t), HAL_MAX_DELAY);
+           HAL_UART_Transmit(&huart2, buff, sizeof(logger_t), 0x100);
     // }
 }
