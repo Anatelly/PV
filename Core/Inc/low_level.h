@@ -7,8 +7,7 @@
 
 // ADC
 #define PIN_ADC_IN3                      GPIO_PIN_6                  
-#define PIN_ADC_IN4                      GPIO_PIN_4   
-#define PIN_ADC_IN5                      GPIO_PIN_1                       
+#define PIN_ADC_IN4                      GPIO_PIN_4                         
 
 // DAC
 #define PIN_DAC1_OUT1                    GPIO_PIN_4  

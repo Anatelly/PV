@@ -4,11 +4,12 @@
   * @brief Функция чтения значения освещенности с PmodALS
   * @return 8-битное значение освещенности (0-255)
   */
-uint16_t PmodALS_Read_illum(void)
+float PmodALS_Read_illum(void)
 {
     uint8_t tx_data[2] = {0x00, 0x00};  // Передаем пустые байты для генерации тактов
     uint8_t rx_data[2];        // Буфер для приема 16 бит
     uint16_t raw_value;
+    float illum_lux;
     
     // Устанавливаем CS в 0 (активируем датчик)
     HAL_GPIO_WritePin(PIN_SPI_CS_PORT, PIN_SPI_CS, GPIO_PIN_RESET);
@@ -30,6 +31,10 @@ uint16_t PmodALS_Read_illum(void)
     // - Следующие 8 бит - данные освещенности (MSB first)
     // - последние 4 бита - нули
     raw_value = (raw_value >> 4) & 0xFF;  // Альтернатива: (raw_value >> 5) & 0xFF
-    
-    return raw_value;
+
+    illum_lux = (raw_value * REF_VOLTAGE / 255.0f); //напряжение на нагрузочном резисторе ацп
+    illum_lux = illum_lux * 1000000.0f / RESIST_LOAD; //фототок в мкА 
+    illum_lux = illum_lux / 0.5f; //освещенность в люксах
+
+    return illum_lux;
 }

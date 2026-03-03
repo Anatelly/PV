@@ -8,7 +8,7 @@ typedef struct
     uint8_t prxA;
     uint8_t prxB;
     float temp;
-    uint16_t illum;
+    float illum;
     uint8_t crc;
     
 } logger_t;

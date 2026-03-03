@@ -16,7 +16,7 @@ void adc_start(void)
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
     // adc_flag = 1;
-    adc_voltage[ILLUM_CHANNEL] = adcData[ILLUM_CHANNEL] * 3.3 / 65535; //напряжение на фоторезисторе
+    // adc_voltage[ILLUM_CHANNEL] = adcData[ILLUM_CHANNEL] * 3.3 / 65535; //напряжение на фоторезисторе
 
 }
 

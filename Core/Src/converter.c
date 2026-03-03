@@ -9,8 +9,6 @@ static const float nI = 0.99673f;
 static const uint8_t Ncell = 48;
 static const float Rsh = 78.6558f;
 
-
-static uint16_t volt_to_illum(uint16_t volt); 
 static void set_value_dac(uint16_t value);
 static float current_math_model(float E, float E_ref, float T, float T_ref, float I_ref);
 
@@ -20,16 +18,6 @@ static float current_math_model(float E, float E_ref, float T, float T_ref, floa
 void convert_task(void)
 {
     set_value_dac(1922);
-}
-
-/**
- * @brief Преобразовывает напряжение с ацп в освещенность в Вт/м2
- */
-static uint16_t volt_to_illum(uint16_t volt) 
-{
-    uint16_t resist = 10000.0 * adc_voltage[ILLUM_CHANNEL] / (3.3 - adc_voltage[ILLUM_CHANNEL]); //сопротивление фоторезистора в Ом
-
-    return resist;
 }
 
 /**

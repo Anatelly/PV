@@ -23,7 +23,6 @@
 #include "var.h"
 
 #define VOLTAGE_CHANNEL            0
-#define ILLUM_CHANNEL              1
-#define CURRENT_CHANNEL            2
+#define CURRENT_CHANNEL            1
 
 #endif /* _INCLUDE_H_ */

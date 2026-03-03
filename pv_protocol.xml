@@ -65,7 +65,7 @@
   <illum>
    <FullName>illum</FullName>
    <Comment></Comment>
-   <DataType>4</DataType>
+   <DataType>7</DataType>
    <ParameterType>1</ParameterType>
    <ByteOrder>2</ByteOrder>
    <ConstValue>0</ConstValue>
@@ -111,7 +111,7 @@
     <X>190</X>
     <Y>0</Y>
     <Index>0</Index>
-    <ScaleX>0.326918</ScaleX>
+    <ScaleX>0.0401605</ScaleX>
     <LocalStartTime>0</LocalStartTime>
     <BitViewerSettings>
      <HidedSelectedItems>1</HidedSelectedItems>
@@ -130,8 +130,8 @@
         <Count>2</Count>
         <BlockIndex>0</BlockIndex>
         <BlockCount>1</BlockCount>
-        <ScaleY>1.59641</ScaleY>
-        <Zero>-7.05417</Zero>
+        <ScaleY>0.347425</ScaleY>
+        <Zero>46.2088</Zero>
         <CutEnable>0</CutEnable>
         <TrigerEnable>0</TrigerEnable>
         <DataIndex>3</DataIndex>
@@ -145,7 +145,7 @@
         <ViewPoint>-5614336</ViewPoint>
         <PermissionMove>0</PermissionMove>
         <LegendWorkSelected>0</LegendWorkSelected>
-        <isSelected>0</isSelected>
+        <isSelected>1</isSelected>
         <VariableNameIndexFromVector/>
        </LegendSettings_0>
        <LegendSettings_1>
@@ -154,7 +154,7 @@
         <BlockIndex>0</BlockIndex>
         <BlockCount>1</BlockCount>
         <ScaleY>0.909091</ScaleY>
-        <Zero>26.4598</Zero>
+        <Zero>319.683</Zero>
         <CutEnable>0</CutEnable>
         <TrigerEnable>0</TrigerEnable>
         <DataIndex>2</DataIndex>
@@ -168,7 +168,7 @@
         <ViewPoint>-21931</ViewPoint>
         <PermissionMove>0</PermissionMove>
         <LegendWorkSelected>0</LegendWorkSelected>
-        <isSelected>0</isSelected>
+        <isSelected>1</isSelected>
         <VariableNameIndexFromVector/>
        </LegendSettings_1>
       </LegendSettingsList>
